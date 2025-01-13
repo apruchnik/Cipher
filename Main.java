@@ -1,57 +1,51 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
-import java.io.PrintStream;
 import java.util.Scanner;
 
 public class Main {
-    public Main() {
-    }
 
     public static void main(String[] args) {
-        Scanner userInput = new Scanner(System.in);
+
+        var userInput = new Scanner(System.in);
         System.out.print("Input text: ");
-        String code = userInput.nextLine();
+        var code = userInput.nextLine();
         code = code.toLowerCase();
+
         System.out.print("Key: ");
-        int key = userInput.nextInt();
-        PrintStream var10000 = System.out;
-        String var10001 = decypherCode(code, key);
-        var10000.println("Message: " + var10001);
+        var key = userInput.nextInt();
+
+        System.out.println("Message: " + decypherCode(code, key));
     }
 
     public static String decypherCode(String code, int key) {
-        char newChar = true;
-        String decString = "";
 
-        for (Scanner wordReader = (new Scanner(code)).useDelimiter(" "); wordReader.hasNext(); decString = decString + " ") {
-            String word = wordReader.next();
+        var newChar = 'a';
+        var decString = "";
+        var wordReader = new Scanner(code).useDelimiter(" ");
 
-            for (int i = 0; i < word.length(); ++i) {
-                char origChar = word.charAt(i);
-                String alphabet = "abcdefghijklmnopqrstuvwxyz";
+        while (wordReader.hasNext()) {
 
-                for (int j = 0; j < alphabet.length(); ++j) {
-                    char alphabetChar = alphabet.charAt(j);
-                    if (origChar != alphabetChar) {
-                        decString = decString + origChar;
-                        break;
+            var word = wordReader.next();
+
+            for (int i = 0; i < word.length(); i++) {
+
+                var origChar = word.charAt(i);
+                var alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+                for (int j = 0; j < alphabet.length(); j++) {
+                    var alphabetChar = alphabet.charAt(j);
+
+                    if (origChar == alphabetChar) {
+                        var alphabetIndex = j;
+                        alphabetIndex += key;
+                        if (alphabetIndex >= 26) {
+                            alphabetIndex -= 26;
+                        }
+                        newChar = alphabet.charAt(alphabetIndex);
+                        decString += newChar;
                     }
-
-                    int alphabetIndex = j;
-                    alphabetIndex += key;
-                    if (alphabetIndex >= 26) {
-                        alphabetIndex -= 26;
-                    }
-
-                    char newChar = alphabet.charAt(alphabetIndex);
-                    decString = decString + newChar;
                 }
             }
+            decString += " ";
         }
-
         return decString;
     }
 }
